@@ -1,9 +1,11 @@
 services:
   mediamtx:
+    image: bluenviron/mediamtx:latest-rpi
+    network_mode: host
     container_name: mediamtx
-    image: bluenviron/mediamtx:latest-ffmpeg
-    restart: unless-stopped
-    network_mode: "host"
-    volumes:
-      - ./conf:/conf:ro
-    command: ./conf/mediamtx.yml
+    restart: always
+    environment:
+      - MTX_PROTOCOLS=tcp
+      - MTX_PATHS_LIVE_SOURCE=rtsp://Xq7hY4KWtDaF:Lm2bzLwbO7ob@192.168.178.34:554/live0
+    ports:
+      - 7000:8554
