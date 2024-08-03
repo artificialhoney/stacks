@@ -1,4 +1,3 @@
-  ~^live:
-    source: rtsp://Xq7hY4KWtDaF:Lm2bzLwbO7ob@192.168.178.34/live0
-    sourceOnDemand: yes
-    sourceProtocol: tcp
+paths:
+  proxied:
+    source: rtsp://Xq7hY4KWtDaF:Lm2bzLwbO7ob@192.168.178.34:554/live0
