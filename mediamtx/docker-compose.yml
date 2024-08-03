@@ -6,4 +6,4 @@ services:
     network_mode: "host"
     volumes:
       - ./conf:/conf:ro
-    command: /conf/mediamtx.yml
+    command: ./conf/mediamtx.yml
