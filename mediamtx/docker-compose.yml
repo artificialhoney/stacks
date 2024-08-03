@@ -1,0 +1,9 @@
+services:
+  mediamtx:
+    container_name: mediamtx
+    image: bluenviron/mediamtx:latest-ffmpeg
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - .:/conf:ro
+    command: /conf/mediamtx.yml
