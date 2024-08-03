@@ -5,6 +5,5 @@ services:
     restart: unless-stopped
     network_mode: "host"
     volumes:
-      - ./mediamtx.yml:/mediamtx.yml
-      - ./server.crt:/server.crt
-      - ./server.key:/server.key
+      - .:/conf:ro
+    command: /conf/mediamtx.yml
