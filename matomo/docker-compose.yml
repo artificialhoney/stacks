@@ -3,6 +3,7 @@ version: "3"
 services:
   db:
     image: mariadb:10.11
+    container_name: ${MATOMO_DATABASE_HOST}
     command: --max-allowed-packet=64MB
     restart: always
     volumes:
@@ -23,7 +24,7 @@ services:
 #     - ./logs:/var/www/html/logs:z
       - matomo:/var/www/html:z
     environment:
-      - MATOMO_DATABASE_HOST=db
+      - MATOMO_DATABASE_HOST=${MATOMO_DATABASE_HOST}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=matomo
       - MYSQL_USER=matomo
