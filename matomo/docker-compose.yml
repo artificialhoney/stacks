@@ -16,6 +16,8 @@ services:
   app:
     image: matomo
     restart: always
+    depends_on:
+      - db
     volumes:
 #     - ./config:/var/www/html/config:z
 #     - ./logs:/var/www/html/logs:z
