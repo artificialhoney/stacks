@@ -30,7 +30,7 @@ services:
       - MATOMO_DATABASE_USERNAME=matomo
       - MATOMO_DATABASE_DBNAME=matomo
     ports:
-      - 6000:80
+      - 5000:80
 
 volumes:
   db:
