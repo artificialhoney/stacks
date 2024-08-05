@@ -5,36 +5,33 @@ services:
     image: mariadb:10.11
     command: --max-allowed-packet=64MB
     restart: always
-    networks:
-      - matomo
     volumes:
       - db:/var/lib/mysql:Z
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
-      - MARIADB_AUTO_UPGRADE=1
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_INITDB_SKIP_TZINFO=1
 
   app:
-    image: matomo:fpm-alpine
+    image: matomo
     restart: always
-    networks:
-      - matomo
-    links:
-      - db
     volumes:
-      # - ./config:/var/www/html/config:z
-      # - ./logs:/var/www/html/logs:z
+#     - ./config:/var/www/html/config:z
+#     - ./logs:/var/www/html/logs:z
       - matomo:/var/www/html:z
     environment:
       - MATOMO_DATABASE_HOST=db
-      - PHP_MEMORY_LIMIT=2048M
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo
+      - MATOMO_DATABASE_ADAPTER=mysql
+      - MATOMO_DATABASE_TABLES_PREFIX=matomo_
+      - MATOMO_DATABASE_USERNAME=matomo
+      - MATOMO_DATABASE_DBNAME=matomo
     ports:
-      - 5000:80
+      - 6000:80
+
 volumes:
   db:
   matomo:
-
-networks:
-  matomo:
-    driver: bridge
