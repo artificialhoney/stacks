@@ -32,7 +32,7 @@ services:
     volumes:
       - matomo:/mnt/stuff/matomo:z,ro
       # see https://github.com/matomo-org/matomo-nginx
-      - ./matomo.conf:/etc/nginx/conf.d/default.conf,ro
+      - ./matomo.conf:/etc/nginx/sites-available/default.conf,ro
     ports:
       - 5000:80
 
