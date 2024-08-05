@@ -20,22 +20,13 @@ services:
     volumes:
       # - ./config:/var/www/html/config:z
       # - ./logs:/var/www/html/logs:z
-      - matomo:/mnt/stuff/matomo:z
+      - matomo:/var/www/html:z
     environment:
       - MATOMO_DATABASE_HOST=db
       - PHP_MEMORY_LIMIT=2048M
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-
-  web:
-    image: nginx:alpine
-    restart: always
-    volumes:
-      - matomo:/mnt/stuff/matomo:z,ro
-      # see https://github.com/matomo-org/matomo-nginx
-      - ./matomo.conf:/etc/nginx/sites-available/default.conf,ro
     ports:
       - 5000:80
-
 volumes:
   db:
   matomo:
