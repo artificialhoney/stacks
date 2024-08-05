@@ -1,0 +1,14 @@
+version: '2'
+services:
+  homebridge:
+    image: homebridge/homebridge:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - /mnt/stuff/homebridge:/homebridge
+      - /run/dbus:/run/dbus:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "10mb"
+        max-file: "1"
