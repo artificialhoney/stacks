@@ -5,6 +5,8 @@ services:
     image: mariadb:10.11
     command: --max-allowed-packet=64MB
     restart: always
+    networks:
+      - matomo
     volumes:
       - db:/var/lib/mysql:Z
     environment:
@@ -15,6 +17,8 @@ services:
   app:
     image: matomo:fpm-alpine
     restart: always
+    networks:
+      - matomo
     links:
       - db
     volumes:
@@ -30,3 +34,7 @@ services:
 volumes:
   db:
   matomo:
+
+networks:
+  matomo:
+    driver: bridge
