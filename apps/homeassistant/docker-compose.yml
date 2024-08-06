@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /mnt/stuff/homeassistant/hass-config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    env_file:
+      - .env
+  hassconfigurator:
+    image: "causticlab/hass-configurator-docker:latest"
+    restart: always
+    ports:
+      - "3218:3218/tcp"
+    volumes:
+      - "/mnt/stuff/homeassistant/configurator-config:/config"
+      - "/mnt/stuff/homeassistant/hass-config:/hass-config"
+  homebridge:
+    extends:
+      file: ../homebridge/docker-compose.yaml
+      service: homebridge
+    env_file:
+          - ../_envs/

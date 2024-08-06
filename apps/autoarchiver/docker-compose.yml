@@ -1,0 +1,9 @@
+
+services:
+  autoarchiver:
+    image: bellingcat/auto-archiver
+    volumes:
+      # - $PWD/secrets:/app/secrets
+      - $PWD/local_archive:/app/local_archive
+    configs:
+      - secrets/orchestration.yaml

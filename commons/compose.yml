@@ -1,0 +1,5 @@
+services:
+  base:
+    env_file:
+          - ../envs/${STACKS_ENVIRONMENT}.env
+          - ../${STACKS_ENVIRONMENT}.env
