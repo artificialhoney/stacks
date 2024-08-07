@@ -1,17 +1,15 @@
 services:
   mosquitto:
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     container_name: mosquitto
     restart: unless-stopped
     ports:
       - 1883:1883
       - 9001:9001
     volumes:
-      - "/mnt/stuff/mosquitto/config:/mosquitto/config"
-      - "/mnt/stuff/mosquitto/data:/mosquitto/data"
-      - "/mnt/stuff/mosquitto/log:/mosquitto/log"
+      - ${STACKS_HOME}/mosquitto/config:/mosquitto/config
+      - ${STACKS_HOME}/mosquitto/data:/mosquitto/data
+      - ${STACKS_HOME}/mosquitto/log:/mosquitto/log
     env_file:
-      - .env
-    environment:
-      - TZ={TZ:-Europe/Amsterdam}
-    user: "${PUID:-1000}:${PGID:-1000}"
+      - ../envs/${STACKS_ENVIRONMENT}.env
+    user: ${PUID:-1000}:${PGID:-1000}

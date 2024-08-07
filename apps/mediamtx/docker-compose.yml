@@ -1,11 +1,12 @@
 services:
   mediamtx:
-    image: bluenviron/mediamtx:latest-rpi
-    network_mode: host
+    image: bluenviron/mediamtx:latest
     container_name: mediamtx
+    network_mode: host
     restart: always
-    environment:
-      - MTX_PROTOCOLS=tcp
-      - MTX_PATHS_LIVE_SOURCE=rtsp://Xq7hY4KWtDaF:Lm2bzLwbO7ob@192.168.178.34:554/live0
+    volumes:
+      - ${STACKS_MEDIAMTX_CONFIG:-./config/mediamtx.yml}:/mediamtx.yml
+    env_file:
+      - ../envs/${STACKS_ENVIRONMENT}.env
     ports:
       - 7000:8554

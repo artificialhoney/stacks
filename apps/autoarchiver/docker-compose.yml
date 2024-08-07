@@ -1,9 +1,9 @@
-
 services:
   autoarchiver:
-    image: bellingcat/auto-archiver
+    image: bellingcat/auto-archiver:latest
+    container_name: autoarchiver
     volumes:
-      # - $PWD/secrets:/app/secrets
-      - $PWD/local_archive:/app/local_archive
+      - ${STACKS_HOME}/autoarchiver/secrets:/app/secrets
+      - ${STACKS_HOME}/autoarchiver/local_archive:/app/local_archive
     configs:
-      - secrets/orchestration.yaml
+      - ${STACKS_AUTOARCHIVER_CONFIG:-./config/orchestration.yml}

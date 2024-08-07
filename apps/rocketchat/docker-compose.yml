@@ -1,22 +1,26 @@
 services:
-  mongo:
+  rocketchatmongo:
     image: arm64v8/mongo:4.4.18
+    container_name: rocketchatmongo
     volumes:
-      - "/mnt/stuff/rocketchat/data:/data"
+      - ${STACKS_HOME}/rocketchat/data:/data
     entrypoint: mongod --bind_ip_all --wiredTigerCacheSizeGB 0.25  --oplogSize 128 --replSet rs0
-  mongo-init-replica:
+  rocketchatmongoinit:
     image: arm64v8/mongo:4.4.18
-    restart: "no"
-    entrypoint: [ "bash", "-c", 'sleep 10 && mongo mongo/rocketchat --eval "rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''mongo:27017'' } ]})"']      
+    container_name: rocketchatmongoinit
+    entrypoint: [ "bash", "-c", 'sleep 10 && mongo mongo/rocketchat --eval "rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''rocketchatmongo:27017'' } ]})"']      
     depends_on:
-      - mongo
+      - rocketchatmongo
   rocketchat:
     image: rocketchat:arm64-6.10.2
+    container_name: rocketchat
     build:
       dockerfile: ./Dockerfile
+    env_file:
+      - ../envs/${STACKS_ENVIRONMENT}.env
     environment:
-      - ROOT_URL=https://chat.honeymachine.io
-      - MONGO_URL=mongodb://mongo:27017/rocketchat
-      - MONGO_OPLOG_URL=mongodb://mongo:27017/local
+      - ROOT_URL=${STACKS_ROCKETCHAT_ROOT_URL}
+      - MONGO_URL=mongodb://rocketchatmongo:27017/rocketchat
+      - MONGO_OPLOG_URL=mongodb://rocketchatmongo:27017/local
     ports:
-      - "3000:3000"
+      - 3000:3000

@@ -1,15 +1,11 @@
 services:
   nodered:
-    container_name: nodered
     image: nodered/node-red
+    container_name: nodered
     ports:
       - 1880:1880
     volumes:
-      - "${STACKS_HOME}/nodered/data:/data"
-    depends_on:
-      - homeassistant
-      - mosquitto
-
+      - ${STACKS_HOME}/nodered/data:/data
     restart: unless-stopped
     env_file:
-      - .env
+      - ../envs/${STACKS_ENVIRONMENT}.env
