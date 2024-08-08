@@ -14,3 +14,7 @@ services:
     depends_on:
       - homeassistant
       - mosquitto
+  mediamtx:
+    extends:
+      file: ../../apps/mediamtx/docker-compose.yml
+      service: mediamtx
