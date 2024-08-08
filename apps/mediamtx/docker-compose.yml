@@ -9,5 +9,3 @@ services:
     extends:
       file: ../../commons/compose.yml
       service: base
-    ports:
-      - 7000:8554

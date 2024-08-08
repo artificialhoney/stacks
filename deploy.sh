@@ -32,7 +32,7 @@ if [[ -n $1 ]]; then
     export STACKS_ENVIRONMENT=${ENVIRONMENT}
     export STACKS_HOME=
     echo "Loading environment from '${ENVIRONMENT}.env'"
-    source ./dotenv.sh
+    [ -f $STACKS_ENVIRONMENT.env ] && export $(grep -v '^#' $STACKS_ENVIRONMENT.env | xargs)
     echo "Creating home in '${STACKS_HOME}'"
     find ./apps -maxdepth 1 -name "docker-compose.yml" -exec sh -c 'mkdir -p "${STACKS_HOME}/${0%}"' {} \;
     echo "Running compose for scope '${SCOPE}' and '$1'"

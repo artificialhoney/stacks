@@ -10,6 +10,7 @@ services:
       - ${STACKS_HOME}/mosquitto/config:/mosquitto/config
       - ${STACKS_HOME}/mosquitto/data:/mosquitto/data
       - ${STACKS_HOME}/mosquitto/log:/mosquitto/log
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
     extends:
       file: ../../commons/compose.yml
       service: base
