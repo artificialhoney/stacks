@@ -9,11 +9,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 8080:8080
-    env_file:
-      - ../envs/${STACKS_ENVIRONMENT}.env
     environment:
       - NEXTCLOUD_DATADIR=${STACKS_HOME}/nextcloud/data
-
+    extends:
+      file: ../../commons/compose.yml
+      service: base
 volumes:
   nextcloud:
     name: nextcloud_aio_mastercontainer

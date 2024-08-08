@@ -6,7 +6,8 @@ services:
     restart: always
     volumes:
       - ${STACKS_MEDIAMTX_CONFIG:-./config/mediamtx.yml}:/mediamtx.yml
-    env_file:
-      - ../envs/${STACKS_ENVIRONMENT}.env
+    extends:
+      file: ../../commons/compose.yml
+      service: base
     ports:
       - 7000:8554

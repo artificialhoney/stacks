@@ -10,3 +10,6 @@ services:
     volumes:
       - ${STACKS_HOME}/nginxproxymanager/data:/data
       - ${STACKS_HOME}/nginxproxymanager/letsencrypt:/etc/letsencrypt
+    extends:
+      file: ../../commons/compose.yml
+      service: base

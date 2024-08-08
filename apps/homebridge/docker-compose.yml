@@ -12,3 +12,6 @@ services:
       options:
         max-size: 10mb
         max-file: 1
+    extends:
+      file: ../../commons/compose.yml
+      service: base

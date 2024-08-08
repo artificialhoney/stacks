@@ -7,3 +7,6 @@ services:
       - ${STACKS_HOME}/autoarchiver/local_archive:/app/local_archive
     configs:
       - ${STACKS_AUTOARCHIVER_CONFIG:-./config/orchestration.yml}
+    extends:
+      file: ../../commons/compose.yaml
+      service: base

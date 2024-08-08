@@ -10,6 +10,7 @@ services:
       - ${STACKS_HOME}/mosquitto/config:/mosquitto/config
       - ${STACKS_HOME}/mosquitto/data:/mosquitto/data
       - ${STACKS_HOME}/mosquitto/log:/mosquitto/log
-    env_file:
-      - ../envs/${STACKS_ENVIRONMENT}.env
+    extends:
+      file: ../../commons/compose.yml
+      service: base
     user: ${PUID:-1000}:${PGID:-1000}

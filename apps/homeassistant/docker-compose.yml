@@ -1,7 +1,7 @@
 services:
   homeassistant:
     container_name: homeassistant
-    image: home-assistant/home-assistant:latest
+    image: homeassistant/home-assistant:latest
     volumes:
       - ${STACKS_HOME}/homeassistant/hass-config:/config
       - /etc/localtime:/etc/localtime:ro
@@ -9,8 +9,9 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
-    env_file:
-      - ../envs/${STACKS_ENVIRONMENT}.env
+    extends:
+      file: ../../commons/compose.yml
+      service: base
   hassconfigurator:
     image: causticlab/hass-configurator-docker:latest
     restart: always
@@ -19,3 +20,6 @@ services:
     volumes:
       - ${STACKS_HOME}/homeassistant/configurator-config:/config
       - ${STACKS_HOME}/homeassistant/hass-config:/hass-config
+    extends:
+      file: ../../commons/compose.yml
+      service: base
