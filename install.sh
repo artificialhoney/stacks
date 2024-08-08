@@ -2,17 +2,17 @@
 
 POSITIONAL_ARGS=()
 
-SCOPE=stacks
+STACKS_SCOPE=stacks
 
 while [[ $# -gt 0 ]]; do
   case $1 in
     -e|--environment)
-      ENVIRONMENT="$2"
+      STACKS_ENVIRONMENT="$2"
       shift # past argument
       shift # past value
       ;;
-    -a|--app)
-      SCOPE=apps
+    -a|--app+)
+      STACKS_SCOPE=apps
       shift # past argument
       ;;
     -*|--*)
@@ -29,13 +29,17 @@ done
 set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 if [[ -n $1 ]]; then
-    export STACKS_ENVIRONMENT=${ENVIRONMENT}
-    echo "Loading environment from '${ENVIRONMENT}.env'"
+    export STACKS_ENVIRONMENT=${STACKS_ENVIRONMENT:-"local"}
+    echo "Loading environment from '${STACKS_ENVIRONMENT}.env'"
     [ -f $STACKS_ENVIRONMENT.env ] && export $(grep -v '^#' $STACKS_ENVIRONMENT.env | xargs)
     echo "Creating home in '${STACKS_HOME}'"
     find ./apps -maxdepth 1 -execdir sh -c 'mkdir -p "../${STACKS_HOME}/${0%}"' {} \;
-    echo "Running compose for scope '${SCOPE}' and '$1'"
-    docker-compose --env-file "${ENVIRONMENT}.env" -f "./$SCOPE/$1/docker-compose.yml" up -d
+    echo "Running compose in '${STACKS_SCOPE}' with '${@}'"
+    for arg in "${@}"
+    do
+      docker-compose --env-file "${STACKS_ENVIRONMENT}.env" -f "./$STACKS_SCOPE/$arg/docker-compose.yml" up -d
+    done
+
     exit 0
 fi
 
