@@ -30,11 +30,10 @@ set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
 
 if [[ -n $1 ]]; then
     export STACKS_ENVIRONMENT=${ENVIRONMENT}
-    export STACKS_HOME=
     echo "Loading environment from '${ENVIRONMENT}.env'"
     [ -f $STACKS_ENVIRONMENT.env ] && export $(grep -v '^#' $STACKS_ENVIRONMENT.env | xargs)
     echo "Creating home in '${STACKS_HOME}'"
-    find ./apps -maxdepth 1 -name "docker-compose.yml" -exec sh -c 'mkdir -p "${STACKS_HOME}/${0%}"' {} \;
+    find ./apps -maxdepth 1 -execdir sh -c 'mkdir -p "../${STACKS_HOME}/${0%}"' {} \;
     echo "Running compose for scope '${SCOPE}' and '$1'"
     docker-compose --env-file "${ENVIRONMENT}.env" -f "./$SCOPE/$1/docker-compose.yml" up -d
     exit 0
