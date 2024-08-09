@@ -3,3 +3,6 @@ tmp
 dist
 
 .local/
+
+*.env
+!local.env

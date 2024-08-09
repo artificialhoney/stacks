@@ -11,9 +11,10 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       shift # past value
       ;;
-    -a|--app+)
-      STACKS_SCOPE=apps
+    -s|--scope)
+      STACKS_SCOPE="$2"
       shift # past argument
+      shift # past value
       ;;
     -*|--*)
       echo "Unknown option $1"
@@ -34,13 +35,19 @@ if [[ -n $1 ]]; then
     [ -f $STACKS_ENVIRONMENT.env ] && export $(grep -v '^#' $STACKS_ENVIRONMENT.env | xargs)
     echo "Creating home in '${STACKS_HOME}'"
     find ./apps -maxdepth 1 -execdir sh -c 'mkdir -p "../${STACKS_HOME}/${0%}"' {} \;
-    echo "Running compose in '${STACKS_SCOPE}' with '${@}'"
-    for arg in "${@}"
-    do
-      docker-compose --env-file "${STACKS_ENVIRONMENT}.env" -f "./$STACKS_SCOPE/$arg/docker-compose.yml" up -d
-    done
-
-    exit 0
+    echo "Running for '${STACKS_SCOPE}' with '${@}'"
+    if [[ $STACKS_SCOPE -eq 'host' ]]; then
+      for arg in "${@}"
+      do
+        . "./host/$arg.sh"
+      done
+    else
+    then
+      for arg in "${@}"
+      do
+        docker-compose --env-file "${STACKS_ENVIRONMENT}.env" -f "./$STACKS_SCOPE/$arg/docker-compose.yml" up -d
+      done
+    fi
 fi
 
 echo "No scope provided"
